@@ -26,28 +26,20 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
 
-    respond_to do |format|
-      if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :created, location: @invoice }
-      else
-        format.html { render :new }
-        format.json { render json: @invoice.errors, status: :unprocessable_entity }
-      end
+    if @invoice.save
+      redirect_to @invoice, notice: 'Invoice was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /invoices/1
   # PATCH/PUT /invoices/1.json
   def update
-    respond_to do |format|
-      if @invoice.update(invoice_params)
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
-        format.json { render :show, status: :ok, location: @invoice }
-      else
-        format.html { render :edit }
-        format.json { render json: @invoice.errors, status: :unprocessable_entity }
-      end
+    if @invoice.update(invoice_params)
+      redirect_to @invoice, notice: 'Invoice was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -55,10 +47,7 @@ class InvoicesController < ApplicationController
   # DELETE /invoices/1.json
   def destroy
     @invoice.destroy
-    respond_to do |format|
-      format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to invoices_url, notice: 'Invoice was successfully destroyed.'
   end
 
   private
@@ -69,8 +58,6 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:name, line_items: [
-        :name, :price, :quantity
-      ])
+      params.require(:invoice).permit(:name, line_items_attributes: [ :name, :price, :quantity ])
     end
 end

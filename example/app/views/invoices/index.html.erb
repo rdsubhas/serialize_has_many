@@ -15,7 +15,7 @@
     <% @invoices.each do |invoice| %>
       <tr>
         <td><%= invoice.name %></td>
-        <td><%= invoice.line_items %></td>
+        <td><%= invoice.line_items.count %></td>
         <td><%= link_to 'Show', invoice %></td>
         <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
         <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>

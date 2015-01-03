@@ -17,6 +17,10 @@ module SerializeHasMany
           write_attribute attr_name, serializer.from_attributes(items)
         end
 
+        define_method "#{attr_name}_attributes=" do |items|
+          send "#{attr_name}=", items.kind_of?(Hash) ? items.values : items
+        end
+
         if options[:validate] == true
           validates_with Validators::NestedValidator, attr_name: attr_name, child_class: child_class
         end

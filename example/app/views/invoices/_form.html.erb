@@ -16,20 +16,20 @@
     <%= f.text_field :name %>
   </div>
 
-  <%= fields_for :line_items do |f_line_items| %>
+  <%= f.fields_for :line_items do |f_item| %>
     <fieldset>
       <legend>Line Item</legend>
       <div class="field">
-        <%= f_line_items.label :name %><br>
-        <%= f_line_items.text_field :name %>
+        <%= f_item.label :name %><br>
+        <%= f_item.text_field :name %>
       </div>
       <div class="field">
-        <%= f_line_items.label :price %><br>
-        <%= f_line_items.text_field :price %>
+        <%= f_item.label :price %><br>
+        <%= f_item.text_field :price %>
       </div>
       <div class="field">
-        <%= f_line_items.label :quantity %><br>
-        <%= f_line_items.text_field :quantity %>
+        <%= f_item.label :quantity %><br>
+        <%= f_item.text_field :quantity %>
       </div>
     </fieldset>
   <% end %>
