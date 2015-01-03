@@ -1,5 +1,5 @@
 require "serialize_has_many/version"
 
 module SerializeHasMany
-  # Your code goes here...
+  autoload :Concern, 'serialize_has_many/concern'
 end
