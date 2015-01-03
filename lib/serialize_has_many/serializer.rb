@@ -19,8 +19,11 @@ module SerializeHasMany
     end
 
     def dump(items)
-      raise('items does not have correct type') unless items.nil? || items.kind_of?(Collection)
-      using.dump(items)
+      case items
+        when nil then nil
+        when Collection then using.dump(items.serialized_attributes)
+        else raise('items does not have correct type')
+      end
     end
   end
 end

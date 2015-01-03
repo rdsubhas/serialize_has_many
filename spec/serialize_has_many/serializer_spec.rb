@@ -61,4 +61,22 @@ describe SerializeHasMany::Serializer do
     end
   end
 
+  describe '#dump' do
+    subject { described_class.new(AttrStruct, JSON) }
+
+    it 'should dump collection object' do
+      attrs = [{ a: 1, b: 2, c: 3 }]
+      r = SerializeHasMany::Collection.new(AttrStruct, attrs)
+      expect(subject.dump(r)).to eq attrs.to_json
+    end
+
+    it 'should dump nil' do
+      expect(subject.dump(nil)).to be_nil
+    end
+
+    it 'should not accept other attributes' do
+      expect { subject.dump([1, 2]) }.to raise_error(/does not have correct type/)
+    end
+  end
+
 end
