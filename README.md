@@ -30,37 +30,25 @@ Assume you have a Parent has-many Child relation. To use `serialize_has_many`:
 
 (For a real scenario, check `example/app/models/`)
 
-    ```ruby
-    class Child
-      include ActiveModel::Model
-      attr_accessor :name, :age, ...
-      validates ...
+```ruby
+class Child
+  include ActiveModel::Model
+  attr_accessor :name, :age, ...
+  validates ...
 
-      def attributes
-        { name: name, age: age, ... }
-      end
-    end
+  def attributes
+    { name: name, age: age, ... }
+  end
+end
 
-
-    class Parent < ActiveRecord::Base
-      include SerializeHasMany::Concern
-      serialize_has_many :<name-of-column>, Child, using: <JSON|YAML>, validate: <true|false>
-    end
-    ```
-
-## Options
-
-  ```
-  serialize_has_many(
-    <name of parent's serialized attribute, required>,
-    <child item class, required>,
-    {
-      using: <JSON|YAML|any other serializer class that responds to dump/load>,
-      validate: <set to true to validate every child model when parent is validated>,
-      reject_if: <proc to reject empty children when submitting from nested forms>
-    }
-  )
-  ```
+class Parent < ActiveRecord::Base
+  include SerializeHasMany::Concern
+  serialize_has_many <name-of-column>, Child,
+    using: <JSON|YAML>,
+    validate: <true|false>,
+    reject_if: <proc to reject empty children when submitting from nested forms>
+end
+```
 
 ## Contributing
 
