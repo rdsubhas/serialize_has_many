@@ -1,9 +1,16 @@
 language: ruby
 sudo: false
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.2
-  - 2.2.0
+- 1.9.3
+- 2.0.0
+- 2.1.2
+- 2.2.0
 script:
-  - bundle exec rspec
+- bundle exec rspec
+deploy:
+  provider: rubygems
+  api_key:
+    secure: IpnkaoAijvbosQ9y52266tPhcvWo/JDphDAk0x6Sn7HWzbmWIqtUs4siuYw1YeaQ7NyjCwWpBLE0bxbqhU/l0BfejOl9NWOj5X4rCWLmQhIX66874bC9veGktTg1EtVmoWTGsJDoUgsIbMkG9zYEDSDxS5uHq2wFZUBR8YJACjg=
+  on:
+    tags: true
+    all_branches: true
