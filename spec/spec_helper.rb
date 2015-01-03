@@ -2,6 +2,13 @@ require 'bundler/setup'
 Bundler.setup
 
 require 'serialize_has_many'
+require 'active_support/all'
+
+class AttrStruct < OpenStruct
+  def attributes
+    to_h
+  end
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -11,7 +18,4 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
-
-  config.order = :random
-  Kernel.srand config.seed
 end
