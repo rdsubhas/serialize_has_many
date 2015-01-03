@@ -1,4 +1,6 @@
-require 'rails_helper'
+require 'spec_helper'
+require 'json'
+require 'yaml'
 
 describe SerializeHasMany::Serializer do
 
