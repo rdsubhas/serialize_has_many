@@ -14,7 +14,7 @@ describe Invoice do
 
   it 'should create from attributes' do
     item = LineItem.new(name: 'test', price: 10, quantity: 1)
-    invoice = Invoice.create! line_items: [item.attributes]
+    invoice = Invoice.create! line_items_attributes: [item.attributes]
 
     invoice = Invoice.find invoice.id
     expect(invoice.line_items.count).to eq 1
@@ -50,7 +50,7 @@ describe Invoice do
     invoice = Invoice.create! line_items: [item]
 
     item.name = 'test 2'
-    invoice.line_items = [item.attributes]
+    invoice.line_items_attributes = [item.attributes]
     invoice.save!
 
     invoice = Invoice.find invoice.id
