@@ -66,6 +66,10 @@ describe SerializeHasMany::Serializer do
     it 'hash as error' do
       expect { subject.load({}.to_json) }.to raise_error(/not an array or nil/)
     end
+
+    it 'unknown item' do
+      expect { subject.load([1].to_json) }.to raise_error(/item is of invalid type/)
+    end
   end
 
   describe '#dump' do
@@ -94,6 +98,10 @@ describe SerializeHasMany::Serializer do
 
     it 'hash as error' do
       expect { subject.dump({}) }.to raise_error(/not an array or nil/)
+    end
+
+    it 'unknown item' do
+      expect { subject.dump([1]) }.to raise_error(/item is of invalid type/)
     end
   end
 

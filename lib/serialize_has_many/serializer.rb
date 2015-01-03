@@ -41,13 +41,19 @@ module SerializeHasMany
     def from_item(item)
       case item
         when nil then nil
+        when Hash then @child_class.new(item)
         when @child_class then item
-        else @child_class.new(item)
+        else raise('item is of invalid type')
       end
     end
 
     def to_item(item)
-      item ? item.attributes : nil
+      case item
+        when nil then nil
+        when Hash then item
+        when @child_class then item.attributes
+        else raise('item is of invalid type')
+      end
     end
   end
 end
