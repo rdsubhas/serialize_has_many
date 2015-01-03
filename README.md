@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/rdsubhas/serialize_has_many.svg?branch=master)](https://travis-ci.org/rdsubhas/serialize_has_many)
 
-Serializes `has_many` relationships into a single column while still doing attributes, validations, callbacks, nested forms and fields_for. Easy NoSQL with ActiveRecord.
+Serializes `has_many` relationships into a single column while still doing attributes, validations, callbacks, nested forms and fields_for. Easy NoSQL with ActiveRecord!
 
 ## Installation
 
