@@ -1,6 +1,6 @@
 # SerializeHasMany
 
-TODO: Write a gem description
+Serialize `has_many` relationships into a single column while still doing attributes, validations, callbacks, nested forms and fields_for. Easy NoSQL.
 
 ## Installation
 
