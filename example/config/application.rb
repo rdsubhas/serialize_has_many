@@ -8,6 +8,8 @@ module Example
   class Application < Rails::Application
     config.active_record.raise_in_transactional_callbacks = true
     config.assets.enabled = false
+    config.cache_classes = true
+    config.eager_load = false
     config.generators do |g|
       g.test_framework nil, fixture: false
       g.view_specs false

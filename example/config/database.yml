@@ -5,8 +5,5 @@ default: &default
   database: ":memory:"
   verbosity: quiet
 
-development:
-  <<: *default
-
 test:
   <<: *default
