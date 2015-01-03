@@ -13,6 +13,10 @@ module SerializeHasMany
         serialize attr_name, serializer
         validates_with Validators::TypeValidator, attr_name: attr_name, child_class: child_class
 
+        if options[:validate] == true
+          validates_with Validators::NestedValidator, attr_name: attr_name, child_class: child_class
+        end
+
         define_method "#{attr_name}_with_typecast=" do |items|
           send "#{attr_name}_without_typecast=", serializer.from_attributes(items)
         end

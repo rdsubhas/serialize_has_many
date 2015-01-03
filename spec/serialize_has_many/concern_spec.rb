@@ -11,13 +11,20 @@ class ConcernTestModel
   include SerializeHasMany::Concern
 
   attr_accessor :data
-  serialize_has_many :data, TestChildModel, using: JSON
+  serialize_has_many :data, TestChildModel, using: JSON, validate: true
 end
 
 describe SerializeHasMany::Concern do
   it 'should invoke type validator' do
     record = ConcernTestModel.new
     expect_any_instance_of(SerializeHasMany::Validators::TypeValidator).
+      to receive(:validate).with(record)
+    expect(record).to be_valid
+  end
+
+  it 'should invoke nested validator' do
+    record = ConcernTestModel.new
+    expect_any_instance_of(SerializeHasMany::Validators::NestedValidator).
       to receive(:validate).with(record)
     expect(record).to be_valid
   end

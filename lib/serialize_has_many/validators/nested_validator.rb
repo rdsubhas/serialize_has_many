@@ -2,7 +2,7 @@ require 'active_model/validator'
 
 module SerializeHasMany
   module Validators
-    class TypeValidator < ActiveModel::Validator
+    class NestedValidator < ActiveModel::Validator
       def attr_name
         options[:attr_name]
       end
@@ -29,8 +29,10 @@ module SerializeHasMany
 
       def validate_each(record, items)
         items.each do |item|
-          unless item.nil? || item.kind_of?(child_class)
-            record.errors.add "#{attr_name}", "item is not of type #{child_class}"
+          if !item.nil? && !item.valid?
+            item.errors.each do |error, message|
+              record.errors.add "#{attr_name}.#{error}", message
+            end
           end
         end
       end
