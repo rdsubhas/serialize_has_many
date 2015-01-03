@@ -1,6 +1,6 @@
 # SerializeHasMany
 
-Serialize `has_many` relationships into a single column while still doing attributes, validations, callbacks, nested forms and fields_for. Easy NoSQL.
+Serializes `has_many` relationships into a single column while still doing attributes, validations, callbacks, nested forms and fields_for. Easy NoSQL with ActiveRecord.
 
 ## Installation
 
@@ -20,7 +20,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Assume you have a Parent has-many Child relation. To use `serialize_has_many`:
+
+* Child should respond to `attributes` and `new(attributes)`
+* Parent should have a `text` column attribute to store the serialized data
+* Add `serialize_has_many` in the Parent
+
+### Example
+
+(For a real scenario, check `example/app/models/`)
+
+    ```ruby
+    class Child
+      include ActiveModel::Model
+      attr_accessor :name, :age, ...
+      validates ...
+
+      def attributes
+        { name: name, age: age, ... }
+      end
+    end
+
+
+    class Parent < ActiveRecord::Base
+      include SerializeHasMany::Concern
+      serialize_has_many :<name-of-column>, Child, using: <JSON|YAML>, validate: <true|false>
+    end
+    ```
 
 ## Contributing
 
