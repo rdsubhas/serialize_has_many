@@ -36,7 +36,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, privileged: false, inline: <<-SCRIPT
     echo "Installing gems..."
     cd /vagrant
-    bundle install --jobs 3
+    bundle install
+
+    cd /vagrant/example
+    bundle install
   SCRIPT
 
 end
