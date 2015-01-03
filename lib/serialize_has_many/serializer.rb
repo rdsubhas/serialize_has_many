@@ -1,8 +1,5 @@
 module SerializeHasMany
   class Serializer
-    attr_reader :model_class
-    attr_reader :using
-
     def initialize(model_class, using)
       raise "#{using} does not implement load" unless using.respond_to?(:load)
       raise "#{using} does not implement dump" unless using.respond_to?(:dump)
@@ -12,13 +9,13 @@ module SerializeHasMany
     end
 
     def load(string)
-      cast_items using.load(string)
+      cast_items @using.load(string)
     end
 
     def dump(items)
       case items
         when nil then nil
-        when Array then using.dump(items)
+        when Array then @using.dump(items)
         else raise('not an array or nil')
       end
     end
