@@ -13,12 +13,9 @@ module SerializeHasMany
         serialize attr_name, serializer
         validates_with Validators::TypeValidator, attr_name: attr_name, child_class: child_class
 
-        define_method "#{attr_name}=" do |items|
-          write_attribute attr_name, serializer.from_attributes(items)
-        end
-
         define_method "#{attr_name}_attributes=" do |items|
-          send "#{attr_name}=", items.kind_of?(Hash) ? items.values : items
+          values = items.kind_of?(Hash) ? items.values : items
+          write_attribute attr_name, serializer.from_attributes(values)
         end
 
         if options[:validate] == true

@@ -33,9 +33,9 @@ describe SerializeHasMany::Concern do
     expect(record).to be_valid
   end
 
-  it 'should override setter' do
+  it 'should override attributes' do
     record = ConcernTestModel.new
-    record.data = [{ name: 1}]
+    record.data_attributes = [{ name: 1}]
     expect(record.data.first).to be_kind_of TestChildModel
     expect(record.data.first.name).to eq 1
   end
