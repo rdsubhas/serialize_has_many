@@ -5,9 +5,18 @@ require 'serialize_has_many'
 require 'active_support/all'
 require 'active_model'
 
-class TestModel
+class TestParentModel
   include ActiveModel::Model
-  attr_accessor :data
+  attr_accessor :children
+end
+
+class TestChildModel
+  include ActiveModel::Model
+  attr_accessor :name
+
+  def attributes
+    { name: name }
+  end
 end
 
 RSpec.configure do |config|

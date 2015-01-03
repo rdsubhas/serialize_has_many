@@ -11,7 +11,7 @@ class ConcernTestModel
   include SerializeHasMany::Concern
 
   attr_accessor :data
-  serialize_has_many :data, OpenStruct, using: JSON
+  serialize_has_many :data, TestChildModel, using: JSON
 end
 
 describe SerializeHasMany::Concern do
@@ -24,7 +24,8 @@ describe SerializeHasMany::Concern do
 
   it 'should override setter' do
     record = ConcernTestModel.new
-    record.data = [{ a: 1}]
-    expect(record.data.first.a).to eq 1
+    record.data = [{ name: 1}]
+    expect(record.data.first).to be_kind_of TestChildModel
+    expect(record.data.first.name).to eq 1
   end
 end

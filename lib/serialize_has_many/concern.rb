@@ -14,7 +14,7 @@ module SerializeHasMany
         validates_with Validators::TypeValidator, attr_name: attr_name, child_class: child_class
 
         define_method "#{attr_name}_with_typecast=" do |items|
-          send "#{attr_name}_without_typecast=", serializer.transform(items)
+          send "#{attr_name}_without_typecast=", serializer.from_attributes(items)
         end
         alias_method_chain "#{attr_name}=", :typecast
       end

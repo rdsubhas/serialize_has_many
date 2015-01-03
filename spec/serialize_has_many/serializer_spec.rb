@@ -7,27 +7,27 @@ describe SerializeHasMany::Serializer do
   describe '#new' do
     it 'using should respond to :load' do
       expect {
-        described_class.new(OpenStruct, double(dump: nil))
+        described_class.new(TestChildModel, double(dump: nil))
       }.to raise_error(/does not implement load/)
     end
 
     it 'using should respond to :dump' do
       expect {
-        described_class.new(OpenStruct, double(load: nil))
+        described_class.new(TestChildModel, double(load: nil))
       }.to raise_error(/does not implement dump/)
     end
 
     it 'using JSON' do
-      expect { described_class.new(OpenStruct, JSON) }.to_not raise_error
+      expect { described_class.new(TestChildModel, JSON) }.to_not raise_error
     end
 
     it 'using YAML' do
-      expect { described_class.new(OpenStruct, YAML) }.to_not raise_error
+      expect { described_class.new(TestChildModel, YAML) }.to_not raise_error
     end
   end
 
   describe '#load' do
-    subject { described_class.new(OpenStruct, JSON) }
+    subject { described_class.new(TestChildModel, JSON) }
 
     it 'nil as empty array' do
       expect(subject.load(nil)).to be_empty
@@ -38,11 +38,13 @@ describe SerializeHasMany::Serializer do
     end
 
     it 'items as model classes' do
-      json = [{ a: 1 }, { b: 2 }].to_json
+      json = [{ name: 1 }, { name: 2 }].to_json
       arr  = subject.load(json)
       expect(arr.size).to eq 2
-      expect(arr[0]).to eq OpenStruct.new({ a: 1 })
-      expect(arr[1]).to eq OpenStruct.new({ b: 2 })
+      expect(arr[0]).to be_kind_of TestChildModel
+      expect(arr[0].name).to eq 1
+      expect(arr[1]).to be_kind_of TestChildModel
+      expect(arr[1].name).to eq 2
     end
 
     it 'nulls as nils' do
@@ -67,11 +69,11 @@ describe SerializeHasMany::Serializer do
   end
 
   describe '#dump' do
-    subject { described_class.new(OpenStruct, JSON) }
+    subject { described_class.new(TestChildModel, JSON) }
 
     it 'array as array' do
-      attrs = [{ a: 1, b: 2, c: 3 }]
-      expect(subject.dump(attrs)).to eq attrs.to_json
+      attrs = [TestChildModel.new(name: 1), TestChildModel.new(name: 2)]
+      expect(subject.dump(attrs)).to eq [{name: 1}, {name: 2}].to_json
     end
 
     it 'empty array as empty array' do
@@ -92,6 +94,36 @@ describe SerializeHasMany::Serializer do
 
     it 'hash as error' do
       expect { subject.dump({}) }.to raise_error(/not an array or nil/)
+    end
+  end
+
+  describe 'snake eats tail' do
+    it 'JSON dump > load > dump > load > dump' do
+      serializer = described_class.new(TestChildModel, JSON)
+
+      attrs = [{ name:1 }, { name:2 }]
+      dump1 = attrs.to_json
+      load1 = serializer.load(dump1)
+      dump2 = serializer.dump(load1)
+      load2 = serializer.load(dump2)
+      dump3 = serializer.dump(load2)
+
+      expect(dump3).to eq dump1
+      expect(load2.collect(&:attributes)).to eq load1.collect(&:attributes)
+    end
+
+    it 'YAML dump > load > dump > load > dump' do
+      serializer = described_class.new(TestChildModel, YAML)
+
+      attrs = [{ name:1 }, { name:2 }]
+      dump1 = attrs.to_yaml
+      load1 = serializer.load(dump1)
+      dump2 = serializer.dump(load1)
+      load2 = serializer.load(dump2)
+      dump3 = serializer.dump(load2)
+
+      expect(dump3).to eq dump1
+      expect(load2.collect(&:attributes)).to eq load1.collect(&:attributes)
     end
   end
 
