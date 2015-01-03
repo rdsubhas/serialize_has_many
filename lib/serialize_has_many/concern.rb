@@ -5,9 +5,10 @@ module SerializeHasMany
     extend ActiveSupport::Concern
 
     class_methods do
-      def serialize_has_many(attr_name, model_clazz, options=nil)
+      def serialize_has_many(attr_name, target_class, options=nil)
         using = options[:using] || raise(':using is required')
-        serialize attr_name, Serializer.new(model_clazz, using)
+        serialize attr_name, Serializer.new(target_class, using)
+        validates_with Validators::TypeValidator, attr_name: attr_name, target_class: target_class
       end
     end
   end

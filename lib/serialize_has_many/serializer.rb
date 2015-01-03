@@ -1,10 +1,10 @@
 module SerializeHasMany
   class Serializer
-    def initialize(model_class, using)
+    def initialize(target_class, using)
       raise "#{using} does not implement load" unless using.respond_to?(:load)
       raise "#{using} does not implement dump" unless using.respond_to?(:dump)
 
-      @model_class = model_class
+      @target_class = target_class
       @using = using
     end
 
@@ -25,7 +25,7 @@ module SerializeHasMany
     def cast_items(items)
       case items
         when nil then []
-        when Array then items.map{ |item| item ? @model_class.new(item) : nil }
+        when Array then items.map{ |item| item ? @target_class.new(item) : nil }
         else raise('not an array or nil')
       end
     end

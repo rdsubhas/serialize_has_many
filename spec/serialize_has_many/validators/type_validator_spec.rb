@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SerializeHasMany::Validators::TypeValidator do
   subject do
-    described_class.new(serialized_attribute: :data, serialized_class: OpenStruct)
+    described_class.new(attr_name: :data, target_class: OpenStruct)
   end
 
   it 'should allow nil' do
