@@ -7,8 +7,8 @@ module SerializeHasMany
         options[:attr_name]
       end
 
-      def target_class
-        options[:target_class]
+      def child_class
+        options[:child_class]
       end
 
       def attributes
@@ -22,8 +22,8 @@ module SerializeHasMany
           nil
         elsif items.kind_of?(Array)
           items.each_with_index do |item, index|
-            unless item.nil? || item.kind_of?(target_class)
-              record.errors.add "#{attr_name}", "item is not of type #{target_class}"
+            unless item.nil? || item.kind_of?(child_class)
+              record.errors.add "#{attr_name}", "item is not of type #{child_class}"
             end
           end
         else

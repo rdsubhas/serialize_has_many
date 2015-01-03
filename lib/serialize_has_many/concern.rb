@@ -6,12 +6,12 @@ module SerializeHasMany
     extend ActiveSupport::Concern
 
     class_methods do
-      def serialize_has_many(attr_name, target_class, options=nil)
+      def serialize_has_many(attr_name, child_class, options=nil)
         using = options[:using] || raise(':using is required')
-        serializer = Serializer.new(target_class, using)
+        serializer = Serializer.new(child_class, using)
 
         serialize attr_name, serializer
-        validates_with Validators::TypeValidator, attr_name: attr_name, target_class: target_class
+        validates_with Validators::TypeValidator, attr_name: attr_name, child_class: child_class
 
         define_method "#{attr_name}_with_typecast=" do |items|
           send "#{attr_name}_without_typecast=", serializer.transform(items)

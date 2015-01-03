@@ -1,10 +1,10 @@
 module SerializeHasMany
   class Serializer
-    def initialize(target_class, using)
+    def initialize(child_class, using)
       raise "#{using} does not implement load" unless using.respond_to?(:load)
       raise "#{using} does not implement dump" unless using.respond_to?(:dump)
 
-      @target_class = target_class
+      @child_class = child_class
       @using = using
     end
 
@@ -23,7 +23,7 @@ module SerializeHasMany
     def transform(items)
       case items
         when nil then []
-        when Array then items.map{ |item| item ? @target_class.new(item) : nil }
+        when Array then items.map{ |item| item ? @child_class.new(item) : nil }
         else raise('not an array or nil')
       end
     end
