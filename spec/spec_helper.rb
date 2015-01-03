@@ -4,12 +4,6 @@ Bundler.setup
 require 'serialize_has_many'
 require 'active_support/all'
 
-class AttrStruct < OpenStruct
-  def attributes
-    to_h
-  end
-end
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

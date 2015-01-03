@@ -4,7 +4,6 @@ module SerializeHasMany
     attr_reader :using
 
     def initialize(model_class, using)
-      raise "#{model_class} does not implement attributes" unless model_class.method_defined?(:attributes)
       raise "#{using} does not implement load" unless using.respond_to?(:load)
       raise "#{using} does not implement dump" unless using.respond_to?(:dump)
 
@@ -13,16 +12,24 @@ module SerializeHasMany
     end
 
     def load(string)
-      items = using.load(string)
-      items = [] unless items.kind_of? Array
-      Collection.new model_class, items
+      cast_items using.load(string)
     end
 
     def dump(items)
       case items
         when nil then nil
-        when Collection then using.dump(items.serialized_attributes)
-        else raise('items does not have correct type')
+        when Array then using.dump(items)
+        else raise('not an array or nil')
+      end
+    end
+
+    private
+
+    def cast_items(items)
+      case items
+        when nil then []
+        when Array then items.map{ |item| item ? @model_class.new(item) : nil }
+        else raise('not an array or nil')
       end
     end
   end
