@@ -3,6 +3,12 @@ Bundler.setup
 
 require 'serialize_has_many'
 require 'active_support/all'
+require 'active_model'
+
+class TestModel
+  include ActiveModel::Model
+  attr_accessor :data
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
