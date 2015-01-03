@@ -13,8 +13,8 @@
 
 ActiveRecord::Schema.define(version: 20150103080911) do
 
-  create_table "test_models", force: :cascade do |t|
-    t.text     "data"
+  create_table "invoices", force: :cascade do |t|
+    t.text     "line_items"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
