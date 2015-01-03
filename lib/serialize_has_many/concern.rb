@@ -6,7 +6,8 @@ module SerializeHasMany
 
     class_methods do
       def serialize_has_many(attr_name, model_clazz, options=nil)
-        serialize attr_name, Serializer.new(model_clazz, options)
+        using = options[:using] || raise(':using is required')
+        serialize attr_name, Serializer.new(model_clazz, using)
       end
     end
   end

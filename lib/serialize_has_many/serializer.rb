@@ -1,16 +1,15 @@
 module SerializeHasMany
   class Serializer
-    attr_accessor :model_class
-    attr_accessor :using
+    attr_reader :model_class
+    attr_reader :using
 
-    def initialize(model_class, options={})
+    def initialize(model_class, using)
+      raise "#{model_class} does not implement attributes" unless model_class.method_defined?(:attributes)
+      raise "#{using} does not implement load" unless using.respond_to?(:load)
+      raise "#{using} does not implement dump" unless using.respond_to?(:dump)
+
       @model_class = model_class
-      @using = options[:using]
-
-      raise "#{model_class} cannot read attributes" unless model_class.method_defined?(:attributes)
-
-      raise "#{using} does not respond to load" unless using.respond_to?(:load)
-      raise "#{using} does not respond to dump" unless using.respond_to?(:dump)
+      @using = using
     end
 
     def load(string)
@@ -20,7 +19,7 @@ module SerializeHasMany
     end
 
     def dump(items)
-      raise('items does not have correct type') unless items.kind_of?(Collection)
+      raise('items does not have correct type') unless items.nil? || items.kind_of?(Collection)
       using.dump(items)
     end
   end
