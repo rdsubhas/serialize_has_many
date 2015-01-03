@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty32"
 
   config.vm.network 'forwarded_port', :guest => 3000, :host => 3000
+  config.ssh.forward_agent = true
 
   if Vagrant.has_plugin?('vagrant-cachier')
     config.cache.scope = :box
