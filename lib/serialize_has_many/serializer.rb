@@ -25,7 +25,7 @@ module SerializeHasMany
     def from_attributes(items)
       case items
         when nil then []
-        when Array then items.map{ |item| item ? @child_class.new(item) : nil }
+        when Array then items.map{ |item| from_item(item) }
         else raise('not an array or nil')
       end
     end
@@ -33,9 +33,21 @@ module SerializeHasMany
     def to_attributes(items)
       case items
         when nil then nil
-        when Array then items.map{ |item| item ? item.attributes : nil }
+        when Array then items.map{ |item| to_item(item) }
         else raise('not an array or nil')
       end
+    end
+
+    def from_item(item)
+      case item
+        when nil then nil
+        when @child_class then item
+        else @child_class.new(item)
+      end
+    end
+
+    def to_item(item)
+      item ? item.attributes : nil
     end
   end
 end

@@ -7,6 +7,10 @@ class ConcernTestModel
     # noop, we're not saving/loading anything here
   end
 
+  def write_attribute(attr_name, value)
+    instance_variable_set "@#{attr_name}", value
+  end
+
   include ActiveModel::Model
   include SerializeHasMany::Concern
 

@@ -13,14 +13,13 @@ module SerializeHasMany
         serialize attr_name, serializer
         validates_with Validators::TypeValidator, attr_name: attr_name, child_class: child_class
 
+        define_method "#{attr_name}=" do |items|
+          write_attribute attr_name, serializer.from_attributes(items)
+        end
+
         if options[:validate] == true
           validates_with Validators::NestedValidator, attr_name: attr_name, child_class: child_class
         end
-
-        define_method "#{attr_name}_with_typecast=" do |items|
-          send "#{attr_name}_without_typecast=", serializer.from_attributes(items)
-        end
-        alias_method_chain "#{attr_name}=", :typecast
       end
     end
   end
