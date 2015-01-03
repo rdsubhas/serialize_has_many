@@ -19,10 +19,24 @@ module SerializeHasMany
     end
 
     def dup
-      self.new(@model_clazz, @items)
+      self.class.new(@model_clazz, @items)
+    end
+
+    def serialized_attributes
+      @items.map do |item|
+        item ? item.attributes : nil
+      end
+    end
+
+    def ==(other)
+      other.kind_of?(self.class) && other.send(:equals?, @model_clazz, @items)
     end
 
     private
+
+    def equals?(model_clazz, items)
+      @model_clazz == model_clazz && @items == items
+    end
 
     def cast_items(items)
       raise('items is not an array') unless items.nil? || items.kind_of?(Array)

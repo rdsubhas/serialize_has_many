@@ -78,4 +78,29 @@ describe SerializeHasMany::Collection do
     end
   end
 
+  describe '#serialized_attributes' do
+    it 'with item attributes' do
+      attrs = [{ a: 1 }, nil, { c: 3 }]
+      r = described_class.new(AttrStruct, attrs)
+      expect(r.serialized_attributes).to eq attrs
+    end
+  end
+
+  describe '#==' do
+    it 'should compare equality based on model class and items' do
+      attrs = [{ a: 1 }, nil, { c: 3 }]
+      r1 = described_class.new(AttrStruct, attrs)
+      r2 = described_class.new(AttrStruct, attrs)
+      expect(r1).to eq r2
+    end
+  end
+
+  describe '#dup' do
+    it 'with item attributes' do
+      r = described_class.new(AttrStruct, [{ a: 1 }, nil, { c: 3 }])
+      expect(r.dup).to eq r
+      expect(r.dup).to_not be r
+    end
+  end
+
 end
