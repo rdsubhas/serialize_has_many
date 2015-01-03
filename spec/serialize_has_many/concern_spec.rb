@@ -15,7 +15,8 @@ class ConcernTestModel
   include SerializeHasMany::Concern
 
   attr_accessor :data
-  serialize_has_many :data, TestChildModel, using: JSON, validate: true
+  serialize_has_many :data, TestChildModel, using: JSON, validate: true,
+    reject_if: Proc.new{ |item| item[:name].nil? }
 end
 
 describe SerializeHasMany::Concern do
@@ -38,5 +39,13 @@ describe SerializeHasMany::Concern do
     record.data_attributes = [{ name: 1}]
     expect(record.data.first).to be_kind_of TestChildModel
     expect(record.data.first.name).to eq 1
+  end
+
+  it 'should reject if proc matches' do
+    record = ConcernTestModel.new
+    record.data_attributes = [{ name: nil }, { name: 1 }]
+    expect(record.data.first).to be_kind_of TestChildModel
+    expect(record.data.first.name).to eq 1
+    expect(record.data.count).to eq 1
   end
 end

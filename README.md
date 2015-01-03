@@ -48,6 +48,20 @@ Assume you have a Parent has-many Child relation. To use `serialize_has_many`:
     end
     ```
 
+## Options
+
+  ```
+  serialize_has_many(
+    <name of parent's serialized attribute, required>,
+    <child item class, required>,
+    {
+      using: <JSON|YAML|any other serializer class that responds to dump/load>,
+      validate: <set to true to validate every child model when parent is validated>,
+      reject_if: <proc to reject empty children when submitting from nested forms>
+    }
+  )
+  ```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/serialize_has_many/fork )

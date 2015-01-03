@@ -58,4 +58,16 @@ describe Invoice do
     expect(invoice.line_items[0].attributes).to eq item.attributes
   end
 
+  it 'should reject if name is blank' do
+    item = LineItem.new(name: 'test', price: 10, quantity: 1)
+    invoice = Invoice.new
+    invoice.attributes = { line_items_attributes: [{ name: nil }, item.attributes] }
+    invoice.save!
+
+    invoice = Invoice.find invoice.id
+    expect(invoice.line_items.count).to eq 1
+    expect(invoice.line_items[0]).to_not be item
+    expect(invoice.line_items[0].attributes).to eq item.attributes
+  end
+
 end

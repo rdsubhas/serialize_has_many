@@ -34,6 +34,24 @@
     </fieldset>
   <% end %>
 
+  <%= f.fields_for :line_items, LineItem.new do |f_item| %>
+    <fieldset>
+      <legend>Line Item</legend>
+      <div class="field">
+        <%= f_item.label :name %><br>
+        <%= f_item.text_field :name %>
+      </div>
+      <div class="field">
+        <%= f_item.label :price %><br>
+        <%= f_item.text_field :price %>
+      </div>
+      <div class="field">
+        <%= f_item.label :quantity %><br>
+        <%= f_item.text_field :quantity %>
+      </div>
+    </fieldset>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
