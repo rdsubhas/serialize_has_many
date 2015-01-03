@@ -9,7 +9,7 @@ module SerializeHasMany
     end
 
     def load(string)
-      cast_items @using.load(string)
+      transform @using.load(string)
     end
 
     def dump(items)
@@ -20,9 +20,7 @@ module SerializeHasMany
       end
     end
 
-    private
-
-    def cast_items(items)
+    def transform(items)
       case items
         when nil then []
         when Array then items.map{ |item| item ? @target_class.new(item) : nil }
