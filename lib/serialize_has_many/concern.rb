@@ -6,6 +6,7 @@ module SerializeHasMany
 
     class_methods do
       def serialize_has_many(attr_name, model_clazz, options=nil)
+        serialize attr_name, Serializer.new
       end
     end
   end
