@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    serialize_has_many (0.0.1)
+    serialize_has_many (1.0.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
 

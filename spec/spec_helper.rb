@@ -1,6 +1,14 @@
 require 'bundler/setup'
 Bundler.setup
 
+if ENV['CI']
+  require 'coveralls'
+  Coveralls.wear!
+else
+  require 'simplecov'
+  SimpleCov.start
+end
+
 require 'serialize_has_many'
 require 'active_support/all'
 require 'active_model'
