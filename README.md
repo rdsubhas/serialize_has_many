@@ -49,10 +49,10 @@ end
 # Convert Parent to use serialize_has_many instead of has_many
 class Parent < ActiveRecord::Base
   include SerializeHasMany::Concern
-  serialize_has_many /* name of column */, /* Child class */,
-    using: /* JSON|YAML */,
-    validate: /* set true to validate child models when validating parent */,
-    reject_if: /* proc to reject empty children when submitting from nested forms */
+  serialize_has_many "<name of column>", Child,
+    using: <JSON|YAML>,
+    validate: <set true to validate child models when validating parent>,
+    reject_if: <proc to reject empty children when submitting from nested forms>
 end
 ```
 
