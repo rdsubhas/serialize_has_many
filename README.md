@@ -49,10 +49,11 @@ end
 # Convert Parent to use serialize_has_many instead of has_many
 class Parent < ActiveRecord::Base
   include SerializeHasMany::Concern
-  serialize_has_many "<name of column>", Child,
-    using: <JSON|YAML>,
-    validate: <set true to validate child models when validating parent>,
-    reject_if: <proc to reject empty children when submitting from nested forms>
+  serialize_has_many "<name of column>",
+    Child, # Child class
+    using: JSON, # JSON, YAML, or any other ActiveRecord serializer
+    validate: false, # Set true to validate children when validating the parent
+    reject_if: Proc.new { ... } # Proc to reject empty children when submitting from nested forms
 end
 ```
 
@@ -60,9 +61,13 @@ end
 
 * Tested on Rails 4.0 and above, Ruby 1.9.3+
 * For the Child model, you can use any class that you want, as long as `attributes` provides a hash, and `new(attributes)` takes that hash. Some options are:
-  * ActiveModel
-  * Virtus
-  * ActiveAttr
+  * [ActiveModel](https://github.com/rails/rails/tree/master/activemodel)
+  * [Virtus](https://github.com/solnic/virtus)
+  * [ActiveAttr](https://github.com/cgriego/active_attr)
+
+### Advanced Scenarios
+
+This gem supports nested relationships in the Child class. You can do it yourself with a simple array attribute, or you can use Virtus which allows you to have explicit nested object types. Just remember that `attributes` should provide a hash (and only a hash, no nested objects), and `new(attributes)` should take the same hash.
 
 ## Contributing
 
