@@ -14,18 +14,14 @@ module SerializeHasMany
     end
 
     def dump(items)
-      @using.dump to_attributes(items)
-      case items
-        when nil then nil
-        when Array then @using.dump(to_attributes(items))
-        else raise('not an array or nil')
-      end
+      attributes = to_attributes(items)
+      attributes ? @using.dump(attributes) : nil
     end
 
     def from_attributes(items)
       case items
         when nil then []
-        when Array then items.map{ |item| from_item(item) }
+        when Array then items.map{ |item| from_hash(item) }
         else raise('not an array or nil')
       end
     end
@@ -33,12 +29,12 @@ module SerializeHasMany
     def to_attributes(items)
       case items
         when nil then nil
-        when Array then items.map{ |item| to_item(item) }
+        when Array then items.map{ |item| to_hash(item) }
         else raise('not an array or nil')
       end
     end
 
-    def from_item(item)
+    def from_hash(item)
       case item
         when nil then nil
         when Hash then @child_class.new(item)
@@ -47,7 +43,7 @@ module SerializeHasMany
       end
     end
 
-    def to_item(item)
+    def to_hash(item)
       case item
         when nil then nil
         when Hash then item
