@@ -5,16 +5,13 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "ubuntu/trusty64"
 
   config.vm.network 'forwarded_port', :guest => 3000, :host => 3000
   config.ssh.forward_agent = true
 
   if Vagrant.has_plugin?('vagrant-cachier')
     config.cache.scope = :box
-    config.cache.enable :apt
-    config.cache.enable :generic, { "gems22" => { cache_dir: "/var/lib/gems/2.2.0/cache" } }
-    config.cache.synced_folder_opts = { mount_options: ['dmode=777', 'fmode=666'] }
   else
     puts "Run `vagrant plugin install vagrant-cachier` to reduce caffeine intake when provisioning"
   end
