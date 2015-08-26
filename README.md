@@ -1,4 +1,4 @@
-# SerializeHasMany
+# serialize_has_many
 
 [![Build Status](https://travis-ci.org/rdsubhas/serialize_has_many.svg?branch=master)](https://travis-ci.org/rdsubhas/serialize_has_many) [![Code Climate](https://codeclimate.com/github/rdsubhas/serialize_has_many/badges/gpa.svg)](https://codeclimate.com/github/rdsubhas/serialize_has_many) [![Coverage Status](https://img.shields.io/coveralls/rdsubhas/serialize_has_many.svg)](https://coveralls.io/r/rdsubhas/serialize_has_many)
 
@@ -71,7 +71,7 @@ This gem supports nested relationships in the Child class. You can do it yoursel
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/serialize_has_many/fork )
+1. Fork it ( https://github.com/rdsubhas/serialize_has_many/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
